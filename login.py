@@ -89,15 +89,6 @@ def request_loader(request):
         u = get_user(uid)
         if u and check_password(u, passwd):
             return user_loader(uid)
-    elif auth_scheme == 'bearer':  # Bearer auth contains an access token;
-        # an 'access token' is a unique string that both identifies
-        # and authenticates a user, so no username is provided (unless
-        # you encode it in the token – see JWT (JSON Web Token), which
-        # encodes credentials and (possibly) authorization info)
-        print(f'Bearer auth: {auth_params}')
-        for uid in users:
-            if users[uid].get('token') == auth_params:
-                return user_loader(uid)
     # For other authentication schemes, see
     # https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication
 
