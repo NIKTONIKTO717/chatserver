@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="138418fc-76cc-480d-a808-04d0796be755" name="Changes" comment="PIB class start">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/login.py" beforeDir="false" afterPath="$PROJECT_DIR$/login.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/search.py" beforeDir="false" afterPath="$PROJECT_DIR$/search.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/send.py" beforeDir="false" afterPath="$PROJECT_DIR$/send.py" afterDir="false" />
+    <list default="true" id="138418fc-76cc-480d-a808-04d0796be755" name="Changes" comment="PIB class - added vulnerability to SQL Injections">
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/tiny.sqlite" beforeDir="false" afterPath="$PROJECT_DIR$/tiny.sqlite" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -132,7 +129,7 @@
       <workItem from="1667479156275" duration="186000" />
       <workItem from="1667479357047" duration="5656000" />
       <workItem from="1677842334204" duration="7570000" />
-      <workItem from="1677936741459" duration="2452000" />
+      <workItem from="1677936741459" duration="2804000" />
     </task>
     <task id="LOCAL-00001" summary="PIB class start">
       <created>1677936131960</created>
@@ -176,7 +173,14 @@
       <option name="project" value="LOCAL" />
       <updated>1677938303320</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="PIB class - added vulnerability to SQL Injections">
+      <created>1677939286882</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1677939286882</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -199,7 +203,8 @@
       <path value="$PROJECT_DIR$" />
     </ignored-roots>
     <MESSAGE value="PIB class start" />
-    <option name="LAST_COMMIT_MESSAGE" value="PIB class start" />
+    <MESSAGE value="PIB class - added vulnerability to SQL Injections" />
+    <option name="LAST_COMMIT_MESSAGE" value="PIB class - added vulnerability to SQL Injections" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/chatserver$chatserver.coverage" NAME="chatserver Coverage Results" MODIFIED="1666963300820" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="" />
