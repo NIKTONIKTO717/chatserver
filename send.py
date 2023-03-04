@@ -22,17 +22,14 @@ def send():
         if not message:
             return f'ERROR: missing message'
         if recipients == '' or recipients is None:
-            conn.execute('INSERT INTO messages (sender, message, recipient) values (?, ?, null);',
-                         (sender, message))
+            conn.execute("INSERT INTO messages (sender, message, recipient) values ('" + sender + "', '"+ message +"', null);")
         else:
             recipients = tag_re.sub('', recipients)
             recipients = html.escape(recipients)
             recipients_list = recipients.strip().split(",")
             for recipient in recipients_list:
-                conn.execute('INSERT INTO messages (sender, message, recipient) values (?, ?, ?);',
-                             (sender, message, recipient))
-        c = conn.execute('SELECT * FROM messages WHERE sender = ? ORDER BY id DESC LIMIT 1',
-                         (current_user.get_id(),))
+                conn.execute("INSERT INTO messages (sender, message, recipient) values ('" + sender + "', '"+ message +"', '"+ recipient +"');")
+        c = conn.execute("SELECT * FROM messages WHERE sender = '" + current_user.get_id() + "' ORDER BY id DESC LIMIT 1")
         rows = c.fetchall()
         c.close()
         return rows

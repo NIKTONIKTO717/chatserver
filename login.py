@@ -16,10 +16,6 @@ login_manager = flask_login.LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = "login"
 
-users = {'alice': {'password': 'password123', 'token': 'tiktok'},
-         'bob': {'password': 'bananas'}
-         }
-
 
 # Class to store user info
 # UserMixin provides us with an `id` field and the necessary
@@ -32,7 +28,7 @@ class User(flask_login.UserMixin):
 # the User object for a given user id
 @login_manager.user_loader
 def user_loader(user_id):
-    c = conn.execute('SELECT * FROM users WHERE id = ?', [user_id])
+    c = conn.execute("SELECT * FROM users WHERE id = '" + user_id + "'")
     rows = c.fetchall()
     c.close()
     if len(rows) == 0:
@@ -45,7 +41,7 @@ def user_loader(user_id):
 
 
 def get_user(user_id):
-    c = conn.execute('SELECT * FROM users WHERE id = ?', [user_id])
+    c = conn.execute("SELECT * FROM users WHERE id = '" + user_id + "'")
     rows = c.fetchall()
     c.close()
     if len(rows) == 0:
@@ -57,7 +53,7 @@ def get_user(user_id):
 
 
 def check_password(user_id, passwd):
-    c = conn.execute('SELECT passwd FROM users WHERE id = ?', (user_id,))
+    c = conn.execute("SELECT passwd FROM users WHERE id = '" + user_id + "'")
     rows = c.fetchall()
     c.close()
     print(len(rows))

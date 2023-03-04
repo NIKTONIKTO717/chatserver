@@ -13,9 +13,9 @@ def get_messages():
     query_sql = '%'+query+'%'
     try:
         if sent:
-            c = conn.execute('SELECT id, sender, message, timestamp, GROUP_CONCAT(recipient) FROM messages WHERE (recipient = ? OR recipient is NULL OR sender = ?) AND message like ? GROUP BY sender, message, timestamp ORDER BY id', (current_user.get_id(), current_user.get_id(), query_sql))
+            c = conn.execute("SELECT id, sender, message, timestamp, GROUP_CONCAT(recipient) FROM messages WHERE (recipient = '" + current_user.get_id() + "' OR recipient is NULL OR sender = '" + current_user.get_id() + "') AND message like '" + query_sql + "' GROUP BY sender, message, timestamp ORDER BY id")
         else:
-            c = conn.execute('SELECT * FROM messages WHERE recipient = ? OR recipient is NULL AND message like ?', (current_user.get_id(), query_sql))
+            c = conn.execute("SELECT * FROM messages WHERE recipient = '" + current_user.get_id() + "' OR recipient is NULL AND message like '" + query_sql + "'")
         rows = c.fetchall()
         c.close()
         return rows
@@ -26,7 +26,7 @@ def get_messages():
 @login_required
 def get_message(message_id):
     try:
-        c = conn.execute('SELECT * FROM messages WHERE (recipient = ? OR sender = ?) AND id = ?', (current_user.get_id(), current_user.get_id(),message_id))
+        c = conn.execute("SELECT * FROM messages WHERE (recipient = '" + current_user.get_id() + "' OR sender = '" + current_user.get_id() + "') AND id = '" + current_user.get_id() + "'")
         rows = c.fetchall()
         result = ''
         for row in rows:
