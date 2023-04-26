@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>INF226</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+	<link rel="icon" href="{{ url_for('static', filename='favicon.png') }}" type="image/png" />
+
+</head>
+
+<body>
+    <div id="page" class="index">
+        <div id="header">
+            <h3>Hi <span>{{ user_id }}</span></h3>
+            <button onclick="location.href='/logout'" type="button">Logout</button>
+        </div>
+        <marquee>
+            <div id="header-announcements"></div>
+        </marquee>
+        <main>
+            <pre id="output"></pre>
+        </main>
+        <div id="controls">
+            <label for="search">Search:</label>
+            <input type="search" id="search" name="search" enterkeyhint="search" value="">
+            <button type="button" id="searchBtn">Search!</button>
+            <button type="button" id="allBtn">Refresh</button>
+            <label for="recipients">To:</label>
+            <input type="text" id="recipients" name="recipients" placeholder="Separate by comma, left blank if all...">
+            <button type="button" id="sendBtn">Send</button>
+            <span></span>
+            <label for="message">Message:</label>
+            <textarea id="message" style="grid-row: span 4;" placeholder="Your message..."></textarea>
+        </div>
+        <div id="anchor"></div>
+    </div>
+</body>
+<script>
+    var reqId = 0;
+    var anchor = document.getElementById('anchor');
+    var searchField = document.getElementById('search');
+    var recipientsField = document.getElementById('recipients');
+    var messageField = document.getElementById('message');
+    var searchBtn = document.getElementById('searchBtn');
+    var sendBtn = document.getElementById('sendBtn');
+    var allBtn = document.getElementById('allBtn');
+    var output = document.getElementById('output');
+    var headerAnnouncements = document.getElementById('header-announcements');
+
+    var checkAnnouncements = async () => {
+        res = await fetch('/announcements');
+        anns = await res.json();
+        if (anns && Array.isArray(anns.data)) {
+            const elts = [];
+            anns.data.forEach((element, idx) => {
+                if (idx > 0) {
+                    const node = document.createElement('li');
+                    node.textContent = '  …  ';
+                    elts.push(node);
+                }
+                const node = document.createElement('li');
+                node.textContent = `${element.message || ''}`;
+                elts.push(node);
+            });
+            console.log(elts);
+            headerAnnouncements.replaceChildren(...elts);
+        }
+    };
+    var search = async (query) => {
+        const id = reqId++;
+        const q = `/messages?sent=true&q=${encodeURIComponent(query)}`;
+        const res = await fetch(q);
+        console.log(res);
+        if(res.status == 200){
+            output.innerHTML = '';
+        }
+        const messages = JSON.parse(await res.text());
+        for (const message of messages) {
+            if(message[4] == null)
+                message[4] = 'all';
+            if(query !== '')
+                message[2] = message[2].replaceAll(query, '<i>'+query+'</i>');
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add(message[0]);
+            messageElement.innerHTML = '<div class="message-from">'
+                + decodeURIComponent(escape(message[1]))
+                + '</div><div class="message-content">'
+                + decodeURIComponent(escape(message[2]))
+                + '</div><div class="message-timestamp">'
+                + decodeURIComponent(escape(message[3]))
+                + '</div><div class="message-to">'
+                + decodeURIComponent(escape(message[4]))
+                + '</div>';
+            if('{{ user_id }}' === message[1])
+                messageElement.classList.add('sent');
+            output.appendChild(messageElement);
+        }
+        console.log(`[${id}]  ${q} → ${res.status} ${res.statusText}`);
+        output.scrollIntoView({block: "end", inline: "nearest", behavior: "smooth"});
+        anchor.scrollIntoView();
+        checkAnnouncements();
+    };
+    var send = async (recipient, message) => {
+        const id = reqId++;
+        const q = `/new?recipients=${encodeURIComponent(recipient)}&message=${encodeURIComponent(message)}`;
+        res = await fetch(q, { method: 'post' });
+        console.log(res);
+        if(res.status == 200){
+            const messages = JSON.parse(await res.text());
+            const message = messages[0];
+            const messageElement = document.createElement('div');
+            messageElement.classList.add('message');
+            messageElement.classList.add('id-'+message[0]);
+            messageElement.classList.add('sent');
+            if(message[4] == null)
+                message[4] = 'all';
+            messageElement.innerHTML = '<div class="message-from">'
+                + decodeURIComponent(escape(message[1]))
+                + '</div><div class="message-content">'
+                + decodeURIComponent(escape(message[2]))
+                + '</div><div class="message-timestamp">'
+                + decodeURIComponent(escape(message[3]))
+                + '</div><div class="message-to">'
+                + decodeURIComponent(escape(message[4]))
+                + '</div>';
+            output.appendChild(messageElement);
+        }
+        output.scrollIntoView({block: "end", inline: "nearest", behavior: "smooth"}); //this not work for me :/
+        output.scrollTop = output.scrollHeight;
+        anchor.scrollIntoView();
+        checkAnnouncements();
+    };
+
+    searchField.addEventListener('keydown', ev => {
+        if (ev.key === 'Enter') {
+            search(searchField.value);
+        }
+    });
+    searchBtn.addEventListener('click', () => search(searchField.value));
+    allBtn.addEventListener('click', () => search(''));
+    sendBtn.addEventListener('click', () => send(recipientsField.value, messageField.value));
+    checkAnnouncements();
+    search('');
+</script>
+
+</html>

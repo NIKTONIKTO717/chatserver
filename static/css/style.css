@@ -1,0 +1,182 @@
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:ital,wght@0,400;0,700;1,400&display=swap');
+* {
+    box-sizing: border-box;
+    font-family: 'Merriweather', serif;
+}
+
+#page {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    ;
+    padding: .5rem;
+}
+
+main {
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    flex-grow: 1;
+    flex-shrink: 1;
+    overflow:auto;
+}
+
+body {
+    margin: 0;
+}
+
+label {
+    justify-self: end;
+    font-size: .75em;
+    line-height: 2em;
+}
+
+#controls {
+    /* min-height: 20%; */
+    font-size: 1.4rem;
+    display: grid;
+    grid-template-columns: 1fr 6fr 1fr 1fr;
+    grid-auto-rows: 2rem;
+    grid-gap: .5rem;
+    max-width: 70rem;
+
+}
+
+#output {
+    width: 100%;
+    height: 100%;
+    background: #eee;
+    overflow: auto;
+    margin: 0;
+    position: relative;
+    z-index: 0;
+}
+#output p {
+    border-bottom: 1px solid grey;
+    padding-bottom: .25rem;
+}
+#header {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    min-height: 2rem;
+    justify-content: space-between;
+    line-height: 2rem;
+}
+
+#header-announcements {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#header-announcements li {
+    display: block;
+    font-style: italic;
+    font-size: 1.2rem;
+    padding: .25rem;
+    margin:0 1rem;
+}
+
+.message {
+    max-width: 80%;
+    padding: 5px;
+    background: #cbd18f;
+    margin: 5px auto 5px 10px;
+    white-space: initial;
+    display: block;
+    position: relative;
+    width: max-content;
+    z-index: 10;
+}
+
+.message.sent {
+    text-align: right;
+    margin: 5px 10px 5px auto;
+    background: #e3b448;
+}
+
+.message:before {
+    content: ' ';
+    position: absolute;
+    width: 0;
+    height: 0;
+    left: -10px;
+    right: auto;
+    top: auto;
+    bottom: 0px;
+    border: 11px solid;
+    border-color: transparent transparent #cbd18f transparent;
+    z-index: 9;
+}
+
+.message.sent:before {
+    right: -10px;
+    left: auto;
+    border-color: transparent transparent #e3b448 transparent;
+}
+
+.message-from, .message-timestamp {
+    opacity: .7;
+    font-size: 70%;
+}
+
+.message-to {
+    display: none;
+    font-size: 80%;
+    opacity: .7;
+}
+
+.sent .message-to {
+    display: block;
+}
+.sent .message-to:before {
+    content: 'sent to: ';
+}
+
+.message i {
+    filter: invert(1);
+    background-color: #fff;
+    font-weight: 700;
+    padding: 0px 3px;
+    font-style: normal;
+}
+
+#header h3 {
+    margin: 0px;
+}
+
+input[type="submit"], button {
+    display: block;
+    border: none;
+    background-color: #3a6b35;
+    padding: 0 28px;
+    font-size: 14px;
+    cursor: pointer;
+    text-align: center;
+    color: #fff;
+    line-height: 2rem;
+}
+
+input, textarea {
+    border-radius: 0;
+    border: 3px solid #3a6b35;
+    line-height: 1.25em;
+    font-family: 'Merriweather', serif;
+}
+
+.login form {
+    max-width: 400px;
+    margin: auto;
+    display: block;
+    padding: 50px;
+    box-shadow: 10px 10px #3a6b35;
+    background: #fff;
+}
+.login {
+    background: #7d9e5d;
+}
+
+input[type="submit"] {
+    margin-left: auto;
+    margin-right: 0;
+}
